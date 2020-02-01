@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 
 import {
   Avatar,
@@ -16,7 +15,7 @@ import { handleFormErrors } from "../util";
 
 import { requestWithAuth } from "../util";
 
-import { useFormStyles } from "../styles";
+import { StyledLink, useFormStyles } from "../styles";
 
 export default function Register(props) {
   const classes = useFormStyles();
@@ -109,7 +108,9 @@ export default function Register(props) {
             </Button>
             <Grid container>
               <Grid item>
-                <Link to="/login">{"Already have an account? Sign In"}</Link>
+                <StyledLink to="/login">
+                  {"Already have an account? Sign In"}
+                </StyledLink>
               </Grid>
             </Grid>
             <Box mt={5}></Box>

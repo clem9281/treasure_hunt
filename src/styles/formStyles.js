@@ -15,10 +15,10 @@ export const useFormStyles = makeStyles(theme => ({
   },
   image: {
     backgroundImage:
-      "url(https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260)",
+      "url(https://images.pexels.com/photos/697662/pexels-photo-697662.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    backgroundPosition: "center"
+    backgroundPosition: "right"
   },
   paper: {
     margin: theme.spacing(8, 4),
