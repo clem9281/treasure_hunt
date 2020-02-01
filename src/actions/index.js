@@ -4,5 +4,6 @@ export {
   LOGIN_SUCCESS,
   REGISTER_FAILURE,
   REGISTER_SUCCESS,
-  REGISTER_START
+  REGISTER_START,
+  login
 } from "./userAuth";

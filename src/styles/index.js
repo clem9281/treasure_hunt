@@ -11,3 +11,5 @@ export const flexCenter = css`
   justify-content: center;
   flex-direction: ${props => props.flexDirection || "row"};
 `;
+
+export { StyledLink, useFormStyles } from "./formStyles";

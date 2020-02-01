@@ -3,10 +3,10 @@ import { Switch, Route } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
-import PrivateRoute from "./Components/PrivateRoute";
-import Login from "./Components/Login";
-import Register from "./Components/Register";
-import WorldPage from "./Components/WorldPage";
+import PrivateRoute from "./components/PrivateRoute";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import WorldPage from "./components/WorldPage";
 
 const theme = createMuiTheme({
   typography: {
@@ -25,8 +25,8 @@ function App() {
         <div className="App">
           <Switch>
             <Route path="/register" component={Register} />
-            <Route exact path="/" component={Login} />
-            <PrivateRoute path="/world" component={WorldPage} />
+            <Route exact path="/login" component={Login} />
+            <PrivateRoute path="/" component={WorldPage} />
           </Switch>
         </div>
       </CssBaseline>

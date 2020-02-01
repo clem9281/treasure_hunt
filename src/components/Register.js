@@ -12,79 +12,41 @@ import {
   Typography
 } from "@material-ui/core";
 import CodeIcon from "@material-ui/icons/Code";
-import { makeStyles } from "@material-ui/core/styles";
-import { toast } from "react-toastify";
+import { handleFormErrors } from "../util";
 
-import { requestWithAuth } from "../utils";
+import { requestWithAuth } from "../util";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    height: "100vh"
-  },
-  image: {
-    backgroundImage: "url(https://wallpaperbro.com/img/509496.jpg)",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    backgroundPosition: "center"
-  },
-  paper: {
-    margin: theme.spacing(8, 4),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main
-  },
-  form: {
-    width: "100%",
-    marginTop: theme.spacing(1)
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2)
-  }
-}));
+import { useFormStyles } from "../styles";
 
 export default function Register(props) {
-  const classes = useStyles();
+  const classes = useFormStyles();
   const [inputs, setInputs] = useState({
     password1: "",
     password2: "",
     username: ""
   });
-
-  const registerUser = newUser => {
-    requestWithAuth()
-      .post(`api/registration/`, newUser)
-      .then(res => {
-        const token = res.data.key;
-        localStorage.setItem("token", `Token ${token}`);
-        props.history.push("/");
-      })
-      .catch(err => {
-        console.log(err);
-        if (err.response.data) {
-          for (let key of Object.keys(err.response.data)) {
-            toast.error(`${key}: ${err.response.data[key]}`);
-          }
-        }
-      });
+  const registerUser = async () => {
+    try {
+      let res = await requestWithAuth().post(`api/registration/`, inputs);
+      const token = res.data.key;
+      localStorage.setItem("token", `Token ${token}`);
+      props.history.push("/");
+    } catch (err) {
+      handleFormErrors(err);
+    }
   };
 
   const handleSubmit = event => {
-    if (event) {
-      event.preventDefault();
-      registerUser(inputs);
-    }
+    event.preventDefault();
+    registerUser();
   };
 
   const handleChange = event => {
     event.persist();
-    setInputs(inputs => ({
+    setInputs({
       ...inputs,
       [event.target.name]: event.target.value
-    }));
+    });
   };
   return (
     <Grid container component="main" className={classes.root}>
@@ -147,7 +109,7 @@ export default function Register(props) {
             </Button>
             <Grid container>
               <Grid item>
-                <Link to="/">{"Already have an account? Sign In"}</Link>
+                <Link to="/login">{"Already have an account? Sign In"}</Link>
               </Grid>
             </Grid>
             <Box mt={5}></Box>

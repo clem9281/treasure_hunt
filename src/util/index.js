@@ -1,15 +1,14 @@
-import axios from "axios";
+import { toast } from "react-toastify";
 
-const { REACT_APP_API_URL } = process.env;
-
-const axiosConfig = {
-  baseURL: REACT_APP_API_URL
+export const handleFormErrors = err => {
+  if (err.response && err.response.data && err.response.status === 400) {
+    for (let key of Object.keys(err.response.data)) {
+      toast.error(`${key}: ${err.response.data[key]}`);
+    }
+  } else {
+    console.log(err);
+    toast.error(`Something went wrong`);
+  }
 };
 
-export const requestWithAuth = authToken => {
-  const instance = axios.create({
-    ...axiosConfig,
-    headers: { Authorization: `${authToken}` }
-  });
-  return instance;
-};
+export { requestWithAuth } from "./config";
