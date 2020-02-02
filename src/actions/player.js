@@ -58,11 +58,11 @@ export const move = (token, currentRoom, dict, nextRoom) => {
           direction,
           next_room_id: `${current["directions"][direction].room_id}`
         };
-        console.log(body);
         try {
           let res = await requestWithAuth(token).post("/api/adv/move/", body);
-          console.log(res);
+          dispatch({ type: MOVE_SUCCESS, payload: res.data });
         } catch (error) {
+          // work out cooldown error, add wait
           dispatch({ type: MOVE_FAIL });
           console.log(error);
           console.dir(error);
