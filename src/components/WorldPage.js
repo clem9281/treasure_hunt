@@ -10,6 +10,7 @@ import FullPageLoader from "./FullPageLoader";
 import LinkToast from "./LinkToast";
 import GameCard from "./GameCard";
 import Map from "./Map";
+import ActionArea from "./ActionArea";
 
 import { loadMap, initializeRoom } from "../actions";
 import { connect } from "react-redux";
@@ -42,7 +43,19 @@ const StyledGridChild = styled(Grid)`
 const StyledGridParent = styled(Grid)`
   min-height: 100vh;
 `;
+const StyledGridColumn = styled(StyledGridChild)`
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: repeat(12, minmax(0, 1fr));
+  padding: 8rem;
+`;
 
+const StyledGridInnerChild = styled.div`
+  // height: ${props => (props.bottom ? "200px" : props.top ? "100%" : "")};
+  grid-column: ${props => props.column};
+  grid-row: ${props => props.row};
+  padding: .7rem;
+`;
 // beginning to change into hooks
 const WorldPage = ({ mapDict, loadMap, initializeRoom, player }) => {
   const initialize = useCallback(async () => {
@@ -93,11 +106,17 @@ const WorldPage = ({ mapDict, loadMap, initializeRoom, player }) => {
             </Grid>
           </StyledGridChild>
 
-          <StyledGridChild container item xs={7} spacing={3}>
-            <Grid item xs={12}>
+          <StyledGridColumn item xs={7}>
+            <StyledGridInnerChild top row="1/8" column="1/13" item xs={12}>
               <Map />
-            </Grid>
-          </StyledGridChild>
+            </StyledGridInnerChild>
+            <StyledGridInnerChild bottom row="8/13" column="1/13" item xs={12}>
+              <ActionArea
+                title={player.currentRoom.title.toUpperCase()}
+                color={blue[900]}
+              />
+            </StyledGridInnerChild>
+          </StyledGridColumn>
         </StyledGridParent>
       </Container>
     </main>

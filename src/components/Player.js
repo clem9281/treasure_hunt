@@ -33,7 +33,7 @@ const Player = ({ user, dimension, player, hideName, playerColor, gutter }) => {
         background={blue[500]}
         width={playerWidth}
         left={x * dimension + ((dimension - gutter) / 2 - playerWidth / 2)}
-        top={y * dimension + ((dimension - gutter) / 2 - playerWidth / 2)}
+        top={-y * dimension + ((dimension - gutter) / 2 - playerWidth / 2)}
       >
         {/* {!hideName && player.username[0].toUpperCase()} */}
       </StyledPlayer>

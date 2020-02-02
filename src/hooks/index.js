@@ -12,7 +12,7 @@ export const usePositionFinder = (player, dimension, element) => {
     if (player.currentRoom.coordinates) {
       setCenter({
         x: width / 2 - (x * dimension + dimension / 2),
-        y: height / 2 - (y * dimension + dimension / 2)
+        y: height / 2 + (y * dimension - dimension / 2)
       });
     }
   }, [dimension, element, player.currentRoom.coordinates]);

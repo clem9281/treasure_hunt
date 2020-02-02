@@ -1,0 +1,347 @@
+{
+    "0": {
+        "directions": {
+            "n": {
+                "room_id": 4,
+                "title": "A misty room",
+                "description": "You are standing on grass and surrounded by a dense mist. You can barely make out the exits in any direction.",
+                "coordinates": "(13,17)",
+                "elevation": 0,
+                "terrain": "NORMAL",
+                "players": [],
+                "items": [],
+                "exits": [
+                    "s"
+                ],
+                "cooldown": 1.0,
+                "errors": [],
+                "messages": [
+                    "You have walked north."
+                ]
+            },
+            "s": {
+                "room_id": 8,
+                "title": "A misty room",
+                "description": "You are standing on grass and surrounded by a dense mist. You can barely make out the exits in any direction.",
+                "coordinates": "(13,15)",
+                "elevation": 0,
+                "terrain": "NORMAL",
+                "players": [],
+                "items": [],
+                "exits": [
+                    "n",
+                    "w"
+                ],
+                "cooldown": 1.0,
+                "errors": [],
+                "messages": [
+                    "You have walked south."
+                ]
+            },
+            "e": {
+                "room_id": 1,
+                "title": "Shop",
+                "description": "You are standing in a small shop. A sign behind the mechanical shopkeeper says 'WILL PAY FOR TREASURE'.",
+                "coordinates": "(14,16)",
+                "elevation": 0,
+                "terrain": "NORMAL",
+                "players": [],
+                "items": [],
+                "exits": [
+                    "s",
+                    "n",
+                    "w",
+                    "e"
+                ],
+                "cooldown": 1.0,
+                "errors": [],
+                "messages": [
+                    "You have walked east."
+                ]
+            },
+            "w": {
+                "room_id": 3,
+                "title": "A misty room",
+                "description": "You are standing on grass and surrounded by a dense mist. You can barely make out the exits in any direction.",
+                "coordinates": "(12,16)",
+                "elevation": 0,
+                "terrain": "NORMAL",
+                "players": [],
+                "items": [],
+                "exits": [
+                    "e",
+                    "n",
+                    "w"
+                ],
+                "cooldown": 1.0,
+                "errors": [],
+                "messages": [
+                    "You have walked south."
+                ]
+            }
+        },
+        "info": {
+            "room_id": 0,
+            "title": "A brightly lit room",
+            "description": "You are standing in the center of a brightly lit room. You notice a shop to the west and exits to the north, south and east.",
+            "coordinates": "(13,16)",
+            "elevation": 0,
+            "terrain": "NORMAL",
+            "players": [],
+            "items": [],
+            "exits": [
+                "s",
+                "n",
+                "e",
+                "w"
+            ],
+            "cooldown": 1.0,
+            "errors": [],
+            "messages": []
+        }
+    },
+    "8": {
+        "directions": {
+            "n": {
+                "room_id": 0,
+                "title": "A brightly lit room",
+                "description": "You are standing in the center of a brightly lit room. You notice a shop to the west and exits to the north, south and east.",
+                "coordinates": "(13,16)",
+                "elevation": 0,
+                "terrain": "NORMAL",
+                "players": [],
+                "items": [],
+                "exits": [
+                    "s",
+                    "n",
+                    "e",
+                    "w"
+                ],
+                "cooldown": 1.0,
+                "errors": [],
+                "messages": []
+            },
+            "w": {
+                "room_id": 16,
+                "title": "A misty room",
+                "description": "You are standing on grass and surrounded by a dense mist. You can barely make out the exits in any direction.",
+                "coordinates": "(12,15)",
+                "elevation": 0,
+                "terrain": "NORMAL",
+                "players": [],
+                "items": [],
+                "exits": [
+                    "e"
+                ],
+                "cooldown": 1.0,
+                "errors": [],
+                "messages": [
+                    "You have walked west."
+                ]
+            }
+        },
+        "info": {
+            "room_id": 8,
+            "title": "A misty room",
+            "description": "You are standing on grass and surrounded by a dense mist. You can barely make out the exits in any direction.",
+            "coordinates": "(13,15)",
+            "elevation": 0,
+            "terrain": "NORMAL",
+            "players": [],
+            "items": [],
+            "exits": [
+                "n",
+                "w"
+            ],
+            "cooldown": 1.0,
+            "errors": [],
+            "messages": [
+                "You have walked south."
+            ]
+        }
+    },
+    "16": {
+        "directions": {
+            "e": {
+                "room_id": 8,
+                "title": "A misty room",
+                "description": "You are standing on grass and surrounded by a dense mist. You can barely make out the exits in any direction.",
+                "coordinates": "(13,15)",
+                "elevation": 0,
+                "terrain": "NORMAL",
+                "players": [],
+                "items": [],
+                "exits": [
+                    "n",
+                    "w"
+                ],
+                "cooldown": 1.0,
+                "errors": [],
+                "messages": [
+                    "You have walked south."
+                ]
+            }
+        },
+        "info": {
+            "room_id": 16,
+            "title": "A misty room",
+            "description": "You are standing on grass and surrounded by a dense mist. You can barely make out the exits in any direction.",
+            "coordinates": "(12,15)",
+            "elevation": 0,
+            "terrain": "NORMAL",
+            "players": [],
+            "items": [],
+            "exits": [
+                "e"
+            ],
+            "cooldown": 1.0,
+            "errors": [],
+            "messages": [
+                "You have walked west."
+            ]
+        }
+    },
+    "4": {
+        "directions": {
+            "s": {
+                "room_id": 0,
+                "title": "A brightly lit room",
+                "description": "You are standing in the center of a brightly lit room. You notice a shop to the west and exits to the north, south and east.",
+                "coordinates": "(13,16)",
+                "elevation": 0,
+                "terrain": "NORMAL",
+                "players": [],
+                "items": [],
+                "exits": [
+                    "s",
+                    "n",
+                    "e",
+                    "w"
+                ],
+                "cooldown": 1.0,
+                "errors": [],
+                "messages": []
+            }
+        },
+        "info": {
+            "room_id": 4,
+            "title": "A misty room",
+            "description": "You are standing on grass and surrounded by a dense mist. You can barely make out the exits in any direction.",
+            "coordinates": "(13,17)",
+            "elevation": 0,
+            "terrain": "NORMAL",
+            "players": [],
+            "items": [],
+            "exits": [
+                "s"
+            ],
+            "cooldown": 1.0,
+            "errors": [],
+            "messages": [
+                "You have walked north."
+            ]
+        }
+    },
+    "1": {
+        "directions": {
+            "n": {
+                "room_id": 7,
+                "title": "A misty room",
+                "description": "You are standing on grass and surrounded by a dense mist. You can barely make out the exits in any direction.",
+                "coordinates": "(14,17)",
+                "elevation": 0,
+                "terrain": "NORMAL",
+                "players": [],
+                "items": [],
+                "exits": [
+                    "s",
+                    "e",
+                    "n"
+                ],
+                "cooldown": 1.0,
+                "errors": [],
+                "messages": [
+                    "You have walked north."
+                ]
+            },
+            "s": {
+                "room_id": 2,
+                "title": "A misty room",
+                "description": "You are standing on grass and surrounded by a dense mist. You can barely make out the exits in any direction.",
+                "coordinates": "(14,15)",
+                "elevation": 0,
+                "terrain": "NORMAL",
+                "players": [],
+                "items": [],
+                "exits": [
+                    "s",
+                    "n",
+                    "e"
+                ],
+                "cooldown": 1.0,
+                "errors": [],
+                "messages": [
+                    "You have walked south."
+                ]
+            },
+            "e": {
+                "room_id": 22,
+                "title": "A misty room",
+                "description": "You are standing on grass and surrounded by a dense mist. You can barely make out the exits in any direction.",
+                "coordinates": "(15,16)",
+                "elevation": 0,
+                "terrain": "NORMAL",
+                "players": [],
+                "items": [],
+                "exits": [
+                    "w"
+                ],
+                "cooldown": 1.0,
+                "errors": [],
+                "messages": [
+                    "You have walked east."
+                ]
+            },
+            "w": {
+                "room_id": 0,
+                "title": "A brightly lit room",
+                "description": "You are standing in the center of a brightly lit room. You notice a shop to the west and exits to the north, south and east.",
+                "coordinates": "(13,16)",
+                "elevation": 0,
+                "terrain": "NORMAL",
+                "players": [],
+                "items": [],
+                "exits": [
+                    "s",
+                    "n",
+                    "e",
+                    "w"
+                ],
+                "cooldown": 1.0,
+                "errors": [],
+                "messages": []
+            }
+        },
+        "info": {
+            "room_id": 1,
+            "title": "Shop",
+            "description": "You are standing in a small shop. A sign behind the mechanical shopkeeper says 'WILL PAY FOR TREASURE'.",
+            "coordinates": "(14,16)",
+            "elevation": 0,
+            "terrain": "NORMAL",
+            "players": [],
+            "items": [],
+            "exits": [
+                "s",
+                "n",
+                "w",
+                "e"
+            ],
+            "cooldown": 1.0,
+            "errors": [],
+            "messages": [
+                "You have walked east."
+            ]
+        }
+    }
+}

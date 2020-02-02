@@ -1,16 +1,59 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { useCoordinates } from "../hooks";
-import { getCoordinatesFromString } from "../util";
 
-const StyledRoom = styled.div.attrs(props => ({
+import { Tooltip } from "@material-ui/core";
+
+const Room = ({ room, player, dimension, red, gutter, handler, mapDict }) => {
+  const doorWidth = gutter + 4;
+  let { x, y } = useCoordinates(room.info);
+  let token = localStorage.getItem("token");
+  return (
+    <>
+      {!!room.directions.n && (
+        <Door
+          left={x * dimension + doorWidth - 3}
+          top={y * dimension + doorWidth - 2}
+          dimension={dimension}
+          width={doorWidth}
+          northRoom
+        />
+      )}
+      {!!room.directions.w && (
+        <Door
+          left={x * dimension - doorWidth + 2}
+          top={y * dimension - doorWidth + 3}
+          dimension={dimension}
+          width={doorWidth}
+          westRoom
+        />
+      )}
+      <Tooltip title={`Room: ${room.info.room_id}`}>
+        <StyledRoom
+          x={x * dimension}
+          y={y * dimension}
+          dimension={dimension - gutter}
+          id={room.info.room_id}
+          coord={room.coordinates}
+          onClick={e =>
+            handler(token, player.currentRoom, mapDict, e.target.id)
+          }
+        ></StyledRoom>
+      </Tooltip>
+    </>
+  );
+};
+
+export default Room;
+
+export const StyledRoom = styled.div.attrs(props => ({
   style: {
     height: props.dimension && `${props.dimension}px`,
     width: props.dimension && `${props.dimension}px`,
     left: props.x && `${props.x}px`,
-    top: props.y && `${props.y}px`,
-    background: props.id && props.id === 497 ? "red" : "#2e7d32"
+    top: props.y && `-${props.y}px`,
+    background: props.id && props.id === 36 ? "red" : "#2e7d32"
   }
 }))`
   border: 2px solid #3e2723;
@@ -21,10 +64,10 @@ const StyledRoom = styled.div.attrs(props => ({
   }
 `;
 
-const Door = styled.div.attrs(props => ({
+export const Door = styled.div.attrs(props => ({
   style: {
     left: props.left && `${props.left}px`,
-    top: props.top && `${props.top}px`,
+    top: props.top && `-${props.top}px`,
     width: props.dimension && `${props.width}px`,
     height: props.dimension && `${props.width}px`,
     borderTop: props.westRoom && `2px solid #3e2723`,
@@ -37,39 +80,3 @@ const Door = styled.div.attrs(props => ({
   background: #2e7d32;
   z-index: 998;
 `;
-
-const Room = ({ room, player, dimension, red, gutter }) => {
-  const doorWidth = gutter + 4;
-  let { x, y } = useCoordinates(room.info);
-  return (
-    <>
-      {!!room.directions.n && (
-        <Door
-          left={x * dimension + doorWidth - 3}
-          top={y * dimension - doorWidth + 2}
-          dimension={dimension}
-          width={doorWidth}
-          northRoom
-        />
-      )}
-      {!!room.directions.w && (
-        <Door
-          left={x * dimension - doorWidth + 2}
-          top={y * dimension + doorWidth / 1.5}
-          dimension={dimension}
-          width={doorWidth}
-          westRoom
-        />
-      )}
-      <StyledRoom
-        x={x * dimension}
-        y={y * dimension}
-        dimension={dimension - gutter}
-        id={room.info.room_id}
-        coord={room.coordinates}
-      ></StyledRoom>
-    </>
-  );
-};
-
-export default Room;
