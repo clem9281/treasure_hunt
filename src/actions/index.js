@@ -1,9 +1,8 @@
 export {
-  LOGIN_FAILURE,
-  LOGIN_START,
-  LOGIN_SUCCESS,
-  REGISTER_FAILURE,
-  REGISTER_SUCCESS,
-  REGISTER_START,
-  login
-} from "./userAuth";
+  ROOM_INFO_FAIL,
+  ROOM_INFO_START,
+  ROOM_INFO_SUCCESS,
+  initializeRoom
+} from "./player";
+
+export { LOADED_MAP, loadMap } from "./map";

@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
+import { useCoordinates } from "../hooks";
+import { getCoordinatesFromString } from "../util";
+
 const StyledRoom = styled.div.attrs(props => ({
   style: {
     height: props.dimension && `${props.dimension}px`,
     width: props.dimension && `${props.dimension}px`,
     left: props.x && `${props.x}px`,
-    top: props.y && `${props.y}px`
+    top: props.y && `${props.y}px`,
+    background: props.id && props.id === 497 ? "red" : "#2e7d32"
   }
 }))`
   border: 2px solid #3e2723;
-  background: #2e7d32;
   position: absolute;
   border-radius: 5px;
   & * {
@@ -24,10 +27,10 @@ const Door = styled.div.attrs(props => ({
     top: props.top && `${props.top}px`,
     width: props.dimension && `${props.width}px`,
     height: props.dimension && `${props.width}px`,
-    "border-top": props.westRoom && `2px solid #3e2723`,
-    "border-bottom": props.westRoom && "2px solid #3e2723",
-    "border-left": props.northRoom && `2px solid #3e2723`,
-    "border-right": props.northRoom && "2px solid #3e2723"
+    borderTop: props.westRoom && `2px solid #3e2723`,
+    borderBottom: props.westRoom && "2px solid #3e2723",
+    borderLeft: props.northRoom && `2px solid #3e2723`,
+    borderRight: props.northRoom && "2px solid #3e2723"
   }
 }))`
   position: absolute;
@@ -37,14 +40,7 @@ const Door = styled.div.attrs(props => ({
 
 const Room = ({ room, player, dimension, red, gutter }) => {
   const doorWidth = gutter + 4;
-  let [{ x, y }, setCoordinates] = useState({ x: null, y: null });
-  useEffect(() => {
-    console.log(room);
-    let x = Number(room.info.coordinates.split(",")[0].slice(1));
-    let yString = room.info.coordinates.split(",")[1];
-    let y = Number(yString.slice(0, yString.length - 1));
-    setCoordinates({ x, y });
-  }, [dimension, room]);
+  let { x, y } = useCoordinates(room.info);
   return (
     <>
       {!!room.directions.n && (
@@ -69,7 +65,8 @@ const Room = ({ room, player, dimension, red, gutter }) => {
         x={x * dimension}
         y={y * dimension}
         dimension={dimension - gutter}
-        id={room.room_id}
+        id={room.info.room_id}
+        coord={room.coordinates}
       ></StyledRoom>
     </>
   );

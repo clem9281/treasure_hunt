@@ -1,16 +1,20 @@
 import React, { useState, useEffect, useCallback } from "react";
 
 import styled from "styled-components";
-import { toast, ToastContainer } from "react-toastify";
+
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import Menu from "./Menu";
-
 import FullPageLoader from "./FullPageLoader";
 import LinkToast from "./LinkToast";
 import GameCard from "./GameCard";
 import Map from "./Map";
 
+import { loadMap, initializeRoom } from "../actions";
+import { connect } from "react-redux";
+
+import map from "../util/map.json";
 import { requestWithAuth } from "../util";
 
 import {
@@ -29,53 +33,47 @@ import {
   yellow,
   red
 } from "@material-ui/core/colors";
-
-import { usePositionFinder } from "../hooks";
+import playerReducer from "../reducers/playerReducer";
 
 const StyledGridChild = styled(Grid)`
   min-height: 95vh;
 `;
 
-const GameArea = styled(Paper)`
-  height: 60%;
-  box-shadow: none;
-  padding: 0;
-  border: 3px solid ${yellow[700]};
-  overflow: hidden;
-`;
 const StyledGridParent = styled(Grid)`
   min-height: 100vh;
 `;
 
 // beginning to change into hooks
-export default function WorldPage() {
-  //   const randomPlayerColor = () => {
-  //     const colors = [
-  //       "#7f0000",
-  //       "#4a148c",
-  //       "#0d47a1",
-  //       "#e65100",
-  //       "#004d40",
-  //       "#1565c0"
-  //     ];
-  //     const random = Math.floor(Math.random() * (colors.length - 1));
-  //     setPlayerColor(colors[random]);
-  //   };
+const WorldPage = ({ mapDict, loadMap, initializeRoom, player }) => {
+  const initialize = useCallback(async () => {
+    let token = localStorage.getItem("token");
+    try {
+      await initializeRoom(token);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [initializeRoom]);
 
-  //   if (!roomIndex || !player) {
-  //     return (
-  //       <>
-  //         <ToastContainer />
-  //         <FullPageLoader />
-  //       </>
-  //     );
-  //   }
-  let player = { room: { x: 16, y: 13 } };
-  let center = usePositionFinder(player, 20, "#game-area");
+  useEffect(() => {
+    loadMap(map);
+  }, [loadMap]);
+
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
+  if (!mapDict || !player.currentRoom) {
+    return (
+      <>
+        <ToastContainer />
+        <FullPageLoader />
+      </>
+    );
+  }
   return (
     <main>
       <Menu></Menu>
       <ToastContainer />
+
       <Container maxWidth="xl">
         <StyledGridParent
           container
@@ -94,15 +92,21 @@ export default function WorldPage() {
               <GameCard color={deepPurple[500]} title="INVENTORY" />
             </Grid>
           </StyledGridChild>
+
           <StyledGridChild container item xs={7} spacing={3}>
             <Grid item xs={12}>
-              <GameArea id="game-area">
-                <Map center={center} dimension={45} gutter={10} />
-              </GameArea>
+              <Map />
             </Grid>
           </StyledGridChild>
         </StyledGridParent>
       </Container>
     </main>
   );
-}
+};
+
+const mapDispatchToProps = { loadMap, initializeRoom };
+const mapStateToProps = ({ mapState, playerState }) => ({
+  mapDict: mapState.rooms,
+  player: playerState
+});
+export default connect(mapStateToProps, mapDispatchToProps)(WorldPage);

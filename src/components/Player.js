@@ -1,6 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
+import { useCoordinates } from "../hooks";
+
+import { blue } from "@material-ui/core/colors";
+
 const StyledPlayer = styled.div`
   position: absolute;
   width: ${props => props.width && `${props.width}px`};
@@ -19,20 +23,24 @@ const StyledPlayer = styled.div`
   font-weight: bold;
 `;
 
-const Player = ({ user, dimension, player, hideName, playerColor }) => {
+const Player = ({ user, dimension, player, hideName, playerColor, gutter }) => {
   const playerWidth = dimension / 4;
-  const left = player.room.x * dimension + (dimension / 2 - playerWidth / 2);
-  const top = player.room.y * dimension + (dimension / 2 - playerWidth / 2);
-  return (
-    <StyledPlayer
-      background={playerColor}
-      width={playerWidth}
-      left={left}
-      top={top}
-    >
-      {!hideName && player.username[0].toUpperCase()}
-    </StyledPlayer>
-  );
+
+  const { x, y } = useCoordinates(player.currentRoom);
+  if (x !== null && y !== null) {
+    return (
+      <StyledPlayer
+        background={blue[500]}
+        width={playerWidth}
+        left={x * dimension + ((dimension - gutter) / 2 - playerWidth / 2)}
+        top={y * dimension + ((dimension - gutter) / 2 - playerWidth / 2)}
+      >
+        {/* {!hideName && player.username[0].toUpperCase()} */}
+      </StyledPlayer>
+    );
+  } else {
+    return <></>;
+  }
 };
 
 export default Player;
