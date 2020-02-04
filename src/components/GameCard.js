@@ -32,11 +32,11 @@ const StyledCardHeader = styled(CardHeader)`
   padding: 0.5rem;
 `;
 
-const GameCard = ({ title, color }) => {
+const GameCard = ({ title, color, children }) => {
   return (
     <StyledCard border={color}>
       <StyledCardHeader color={color} title={title}></StyledCardHeader>
-      <CardContent></CardContent>
+      <CardContent>{children}</CardContent>
     </StyledCard>
   );
 };

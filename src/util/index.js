@@ -11,8 +11,6 @@ export const handleFormErrors = err => {
   }
 };
 
-export { requestWithAuth } from "./config";
-
 export const getCoordinatesFromString = str => {
   let x = Number(str.split(",")[0].slice(1));
   let yString = str.split(",")[1];

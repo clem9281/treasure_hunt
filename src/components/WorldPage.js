@@ -11,8 +11,10 @@ import LinkToast from "./LinkToast";
 import GameCard from "./GameCard";
 import Map from "./Map";
 import ActionArea from "./ActionArea";
+import Controls from "./Controls";
+import PlayerInfo from "./PlayerInfo";
 
-import { loadMap, initializeRoom } from "../actions";
+import { loadMap, initializeRoom, playerStatus } from "../actions";
 import { connect } from "react-redux";
 
 import map from "../util/map.json";
@@ -37,10 +39,12 @@ import {
 import playerReducer from "../reducers/playerReducer";
 
 const StyledGridChild = styled(Grid)`
+  height: 100%;
   min-height: 95vh;
 `;
 
 const StyledGridParent = styled(Grid)`
+  height: 100%;
   min-height: 100vh;
 `;
 const StyledGridColumn = styled(StyledGridChild)`
@@ -51,30 +55,37 @@ const StyledGridColumn = styled(StyledGridChild)`
 `;
 
 const StyledGridInnerChild = styled.div`
-  // height: ${props => (props.bottom ? "200px" : props.top ? "100%" : "")};
   grid-column: ${props => props.column};
   grid-row: ${props => props.row};
-  padding: .7rem;
+  padding: 0.7rem;
 `;
 // beginning to change into hooks
-const WorldPage = ({ mapDict, loadMap, initializeRoom, player }) => {
+const WorldPage = ({
+  mapDict,
+  loadMap,
+  initializeRoom,
+  player,
+  playerStatus
+}) => {
   const initialize = useCallback(async () => {
     let token = localStorage.getItem("token");
     try {
+      await playerStatus(token);
       await initializeRoom(token);
     } catch (error) {
       console.log(error);
     }
   }, [initializeRoom]);
 
+  // load map into state
   useEffect(() => {
     loadMap(map);
   }, [loadMap]);
-
+  // get player current room and player current status
   useEffect(() => {
     initialize();
   }, [initialize]);
-  if (!mapDict || !player.currentRoom) {
+  if (!mapDict || !player.currentRoom || !player.playerStatus) {
     return (
       <>
         <ToastContainer />
@@ -96,7 +107,9 @@ const WorldPage = ({ mapDict, loadMap, initializeRoom, player }) => {
         >
           <StyledGridChild container item xs={4} spacing={3}>
             <Grid item xs={12}>
-              <GameCard color={teal[500]} title="STATS" />
+              <GameCard color={teal[500]} title="STATS">
+                <PlayerInfo />
+              </GameCard>
             </Grid>
             <Grid item xs={12}>
               <GameCard color={green[500]} title="EQUIPMENT" />
@@ -107,10 +120,13 @@ const WorldPage = ({ mapDict, loadMap, initializeRoom, player }) => {
           </StyledGridChild>
 
           <StyledGridColumn item xs={7}>
-            <StyledGridInnerChild top row="1/8" column="1/13" item xs={12}>
+            <StyledGridInnerChild row="1/7" column="1/13" item xs={12}>
               <Map />
             </StyledGridInnerChild>
-            <StyledGridInnerChild bottom row="8/13" column="1/13" item xs={12}>
+            <StyledGridInnerChild row="7/8" column="1/13" item xs={12}>
+              <Controls />
+            </StyledGridInnerChild>
+            <StyledGridInnerChild row="8/13" column="1/13" item xs={12}>
               <ActionArea
                 title={player.currentRoom.title.toUpperCase()}
                 color={blue[900]}
@@ -123,7 +139,7 @@ const WorldPage = ({ mapDict, loadMap, initializeRoom, player }) => {
   );
 };
 
-const mapDispatchToProps = { loadMap, initializeRoom };
+const mapDispatchToProps = { loadMap, initializeRoom, playerStatus };
 const mapStateToProps = ({ mapState, playerState }) => ({
   mapDict: mapState.rooms,
   player: playerState

@@ -5,10 +5,26 @@ import { useCoordinates } from "../hooks";
 
 import { Tooltip } from "@material-ui/core";
 
-const Room = ({ room, player, dimension, red, gutter, handler, mapDict }) => {
+import { toast } from "react-toastify";
+
+const Room = ({ room, player, dimension, red, gutter, move, mapDict }) => {
   const doorWidth = gutter + 4;
   let { x, y } = useCoordinates(room.info);
   let token = localStorage.getItem("token");
+  let clickHandler = e => {
+    if (player.isCoolingDown) {
+      toast.info(`You can't move while you are cooling down`);
+    } else {
+      move(
+        token,
+        player.currentRoom,
+        mapDict,
+        e.target.id,
+        player.willPickUp,
+        player
+      );
+    }
+  };
   return (
     <>
       {!!room.directions.n && (
@@ -29,16 +45,14 @@ const Room = ({ room, player, dimension, red, gutter, handler, mapDict }) => {
           westRoom
         />
       )}
-      <Tooltip title={`Room: ${room.info.room_id}`}>
+      <Tooltip arrow title={`Room: ${room.info.room_id}`}>
         <StyledRoom
           x={x * dimension}
           y={y * dimension}
           dimension={dimension - gutter}
           id={room.info.room_id}
           coord={room.coordinates}
-          onClick={e =>
-            handler(token, player.currentRoom, mapDict, e.target.id)
-          }
+          onClick={clickHandler}
         ></StyledRoom>
       </Tooltip>
     </>

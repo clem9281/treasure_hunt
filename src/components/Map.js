@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { connect } from "react-redux";
@@ -8,6 +8,7 @@ import { yellow } from "@material-ui/core/colors";
 
 import Player from "./Player";
 import Room from "./Room";
+import Cooldown from "./Cooldown";
 
 import { move } from "../actions";
 
@@ -23,9 +24,30 @@ const Map = ({
   move
 }) => {
   let center = usePositionFinder(player, dimension, "#game-area");
+  let [{ scrollTop, scrollLeft }, setRoomsDimensions] = useState({
+    scrollTop: 0,
+    scrollLeft: 0
+  });
+  useEffect(() => {
+    let rooms = document.querySelector("#rooms");
+
+    // rooms.scrollTop = center.y;
+    // rooms.setAttribute("scrollLeft", center.x);
+    // setRoomsDimensions({
+    //   height: center.y + rooms.offsetHeight,
+    //   width: Math.abs(center.x - rooms.offsetWidth)
+    // });
+  }, [center]);
   return (
     <GameArea id="game-area">
-      <StyledRooms left={center.x} top={center.y} id="rooms">
+      <Cooldown />
+      <StyledRooms
+        left={center.x}
+        top={center.y}
+        id="rooms"
+        // height={height}
+        // width={width}
+      >
         <Player
           dimension={dimension}
           player={player}
@@ -42,7 +64,7 @@ const Map = ({
                 dimension={dimension}
                 gutter={gutter}
                 player={player}
-                handler={move}
+                move={move}
                 mapDict={mapDict}
               />
             );
@@ -67,14 +89,17 @@ export const GameArea = styled(Paper)`
   height: 100%;
   border: 3px solid ${yellow[700]};
   position: relative;
-  overflow: hidden;
+  overflow: scroll;
 `;
 
 export const StyledRooms = styled.div`
+  // overflow: scroll;
+  display: flex;
   background: transparent;
   position: relative;
-  border: 1px solid blue;
-  height: 100%;
+  width: ${props => (props.width ? `${props.width}px` : "100%")};
+  height: ${props => (props.height ? `${props.height}px` : "100%")};
+  padding: 8rem;
   left: ${props => (props.left ? `${props.left}px` : 0)};
   top: ${props => !!props.top && `${props.top}px`};
   transition: left 0.3s, top 0.3s;
