@@ -7,59 +7,26 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Menu from "./Menu";
 import FullPageLoader from "./FullPageLoader";
-import LinkToast from "./LinkToast";
-import GameCard from "./GameCard";
 import Map from "./Map";
 import ActionArea from "./ActionArea";
 import Controls from "./Controls";
 import PlayerInfo from "./PlayerInfo";
+import Inventory from "./Inventory";
+
+import {
+  GameCard,
+  GridAncestor,
+  GridParentChild,
+  GridChild
+} from "./styledComponents";
 
 import { loadMap, initializeRoom, playerStatus } from "../actions";
 import { connect } from "react-redux";
 
 import map from "../util/map.json";
-import { requestWithAuth } from "../util";
 
-import {
-  Grid,
-  Card,
-  Paper,
-  CardHeader,
-  CardContent,
-  Container
-} from "@material-ui/core";
-import {
-  teal,
-  blue,
-  deepPurple,
-  green,
-  yellow,
-  red
-} from "@material-ui/core/colors";
-import playerReducer from "../reducers/playerReducer";
+import { Container } from "@material-ui/core";
 
-const StyledGridChild = styled(Grid)`
-  height: 100%;
-  min-height: 95vh;
-`;
-
-const StyledGridParent = styled(Grid)`
-  height: 100%;
-  min-height: 100vh;
-`;
-const StyledGridColumn = styled(StyledGridChild)`
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-template-rows: repeat(12, minmax(0, 1fr));
-  padding: 8rem;
-`;
-
-const StyledGridInnerChild = styled.div`
-  grid-column: ${props => props.column};
-  grid-row: ${props => props.row};
-  padding: 0.7rem;
-`;
-// beginning to change into hooks
 const WorldPage = ({
   mapDict,
   loadMap,
@@ -75,7 +42,7 @@ const WorldPage = ({
     } catch (error) {
       console.log(error);
     }
-  }, [initializeRoom]);
+  }, [initializeRoom, playerStatus]);
 
   // load map into state
   useEffect(() => {
@@ -99,41 +66,40 @@ const WorldPage = ({
       <ToastContainer />
 
       <Container maxWidth="xl">
-        <StyledGridParent
-          container
-          spacing={3}
-          alignItems="center"
-          justify="center"
-        >
-          <StyledGridChild container item xs={4} spacing={3}>
-            <Grid item xs={12}>
-              <GameCard color={teal[500]} title="STATS">
-                <PlayerInfo />
-              </GameCard>
-            </Grid>
-            <Grid item xs={12}>
-              <GameCard color={green[500]} title="EQUIPMENT" />
-            </Grid>
-            <Grid item xs={12}>
-              <GameCard color={deepPurple[500]} title="INVENTORY" />
-            </Grid>
-          </StyledGridChild>
+        <GridAncestor justifyContent="space-between">
+          <GridParentChild
+            flexBasis="30%"
+            flexDirection="column"
+            flex="0 0 30%"
+            justifyContent="space-between"
+          >
+            <GridChild>
+              <PlayerInfo />
+            </GridChild>
+            <GridChild>
+              <GameCard title="EQUIPMENT" color="success" />
+            </GridChild>
+            <GridChild>
+              <Inventory />
+            </GridChild>
+          </GridParentChild>
 
-          <StyledGridColumn item xs={7}>
-            <StyledGridInnerChild row="1/7" column="1/13" item xs={12}>
+          <GridParentChild
+            flexBasis="68%"
+            flexDirection="column"
+            flex="0 0 68%"
+          >
+            <GridChild flex="0 0 50%">
               <Map />
-            </StyledGridInnerChild>
-            <StyledGridInnerChild row="7/8" column="1/13" item xs={12}>
+            </GridChild>
+            <GridChild flex="1 0 10%">
               <Controls />
-            </StyledGridInnerChild>
-            <StyledGridInnerChild row="8/13" column="1/13" item xs={12}>
-              <ActionArea
-                title={player.currentRoom.title.toUpperCase()}
-                color={blue[900]}
-              />
-            </StyledGridInnerChild>
-          </StyledGridColumn>
-        </StyledGridParent>
+            </GridChild>
+            <GridChild flex="1 0 40%">
+              <ActionArea />
+            </GridChild>
+          </GridParentChild>
+        </GridAncestor>
       </Container>
     </main>
   );

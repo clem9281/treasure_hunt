@@ -18,12 +18,18 @@ import { handleFormErrors } from "../util";
 import { requestWithAuth } from "../api";
 
 import { StyledLink, useFormStyles } from "../styles";
+const { REACT_APP_PROD_TOKEN } = process.env;
 
 export default function Login(props) {
   const classes = useFormStyles();
   const [user, setUser] = useState({ username: "", password: "" });
 
   const loginUser = async () => {
+    // localStorage.setItem(
+    //   "token",
+    //   `Token ${REACT_APP_PROD_TOKEN}`
+    // );
+    // props.history.push("/world");
     try {
       let res = await requestWithAuth().post(`api/login/`, user);
       const token = res.data.key;
@@ -47,7 +53,6 @@ export default function Login(props) {
   return (
     <Grid container component="main" className={classes.root}>
       <ToastContainer />
-      <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>

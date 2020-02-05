@@ -7,6 +7,15 @@ import { Tooltip } from "@material-ui/core";
 
 import { toast } from "react-toastify";
 
+import {
+  teal,
+  blue,
+  deepPurple,
+  green,
+  yellow,
+  red
+} from "@material-ui/core/colors";
+
 const Room = ({ room, player, dimension, red, gutter, move, mapDict }) => {
   const doorWidth = gutter + 4;
   let { x, y } = useCoordinates(room.info);
@@ -58,6 +67,10 @@ const Room = ({ room, player, dimension, red, gutter, move, mapDict }) => {
     </>
   );
 };
+/*
+SHOP: 1
+PIRATE RY: 467
+*/
 
 export default Room;
 
@@ -67,9 +80,18 @@ export const StyledRoom = styled.div.attrs(props => ({
     width: props.dimension && `${props.dimension}px`,
     left: props.x && `${props.x}px`,
     top: props.y && `-${props.y}px`,
-    background: props.id && props.id === 36 ? "red" : "#2e7d32"
+
+    background:
+      props.id && props.id === 1
+        ? `${red[500]}`
+        : props.id && props.id === 467
+        ? `${deepPurple[500]}`
+        : props.id && props.id === 55
+        ? `${teal[500]}`
+        : "#2e7d32"
   }
 }))`
+  // transform-origin: top left;
   border: 2px solid #3e2723;
   position: absolute;
   border-radius: 5px;

@@ -9,6 +9,8 @@ export const usePositionFinder = (player, dimension, element) => {
     let height = gameArea.offsetHeight;
     let width = gameArea.offsetWidth;
     let [x, y] = getCoordinatesFromString(player.currentRoom.coordinates);
+    const rooms = document.querySelector("#rooms");
+    console.dir(rooms);
     if (player.currentRoom.coordinates) {
       setCenter({
         x: width / 2 - (x * dimension + dimension / 2),

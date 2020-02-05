@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import { connect } from "react-redux";
@@ -10,34 +10,12 @@ import Player from "./Player";
 import Room from "./Room";
 import Cooldown from "./Cooldown";
 
-import { move } from "../actions";
+import { movement } from "../actions";
 
 import { usePositionFinder } from "../hooks";
 
-const Map = ({
-  dimension,
-  gutter,
-  playerColor,
-  hideName,
-  mapDict,
-  player,
-  move
-}) => {
+const Map = ({ dimension, gutter, playerColor, mapDict, player, movement }) => {
   let center = usePositionFinder(player, dimension, "#game-area");
-  let [{ scrollTop, scrollLeft }, setRoomsDimensions] = useState({
-    scrollTop: 0,
-    scrollLeft: 0
-  });
-  useEffect(() => {
-    let rooms = document.querySelector("#rooms");
-
-    // rooms.scrollTop = center.y;
-    // rooms.setAttribute("scrollLeft", center.x);
-    // setRoomsDimensions({
-    //   height: center.y + rooms.offsetHeight,
-    //   width: Math.abs(center.x - rooms.offsetWidth)
-    // });
-  }, [center]);
   return (
     <GameArea id="game-area">
       <Cooldown />
@@ -54,6 +32,7 @@ const Map = ({
           playerColor={playerColor}
           gutter={gutter}
         />
+        <FakeDiv></FakeDiv>
         {mapDict &&
           Object.keys(mapDict).map(room => {
             return (
@@ -64,17 +43,18 @@ const Map = ({
                 dimension={dimension}
                 gutter={gutter}
                 player={player}
-                move={move}
+                move={movement}
                 mapDict={mapDict}
               />
             );
           })}
+        {/* </FakeDiv> */}
       </StyledRooms>
     </GameArea>
   );
 };
 
-const mapDispatchToProps = { move };
+const mapDispatchToProps = { movement };
 const mapStateToProps = ({ mapState, playerState }) => ({
   mapDict: mapState.rooms,
   dimension: mapState.dimension,
@@ -90,18 +70,25 @@ export const GameArea = styled(Paper)`
   border: 3px solid ${yellow[700]};
   position: relative;
   overflow: scroll;
+  max-height: 500px;
 `;
 
 export const StyledRooms = styled.div`
-  // overflow: scroll;
-  display: flex;
+  display: block;
   background: transparent;
   position: relative;
   width: ${props => (props.width ? `${props.width}px` : "100%")};
   height: ${props => (props.height ? `${props.height}px` : "100%")};
-  padding: 8rem;
+  padding: 0;
   left: ${props => (props.left ? `${props.left}px` : 0)};
   top: ${props => !!props.top && `${props.top}px`};
   transition: left 0.3s, top 0.3s;
   transition-delay: 0.25s;
+`;
+
+export const FakeDiv = styled.div`
+  // position: relative;
+  // height: 2000px;
+  // top: -29000px;
+  // display: block
 `;

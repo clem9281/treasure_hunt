@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 
-import { willPickUp } from "../actions";
+import { setWillPickUp } from "../actions";
 
 import {
   Grid,
@@ -48,9 +48,9 @@ const StyledCardContent = styled(CardContent)`
   background: ${grey[900]};
 `;
 
-const Controls = ({ title, color, player, willPickUp }) => {
+const Controls = ({ title, color, player, setWillPickUp }) => {
   const handleChange = e => {
-    willPickUp(e.target.checked);
+    setWillPickUp(e.target.checked);
   };
   return (
     <Card raised={false}>
@@ -69,7 +69,7 @@ const Controls = ({ title, color, player, willPickUp }) => {
   );
 };
 
-const mapDispatchToProps = { willPickUp };
+const mapDispatchToProps = { setWillPickUp };
 const mapStateToProps = ({ mapState, playerState }) => ({
   mapDict: mapState.rooms,
   dimension: mapState.dimension,
