@@ -7,14 +7,7 @@ import { Tooltip } from "@material-ui/core";
 
 import { toast } from "react-toastify";
 
-import {
-  teal,
-  blue,
-  deepPurple,
-  green,
-  yellow,
-  red
-} from "@material-ui/core/colors";
+import { teal, deepPurple, red } from "@material-ui/core/colors";
 
 const Room = ({ room, player, dimension, red, gutter, move, mapDict }) => {
   const doorWidth = gutter + 4;

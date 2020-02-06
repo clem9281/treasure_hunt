@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import {
   Avatar,
   Button,
-  CssBaseline,
   TextField,
   Paper,
   Box,
@@ -23,12 +22,8 @@ const { REACT_APP_PROD_TOKEN } = process.env;
 export default function Login(props) {
   const classes = useFormStyles();
   const [user, setUser] = useState({ username: "", password: "" });
-
   const loginUser = async () => {
-    // localStorage.setItem(
-    //   "token",
-    //   `Token ${REACT_APP_PROD_TOKEN}`
-    // );
+    // localStorage.setItem("token", `Token ${REACT_APP_PROD_TOKEN}`);
     // props.history.push("/world");
     try {
       let res = await requestWithAuth().post(`api/login/`, user);

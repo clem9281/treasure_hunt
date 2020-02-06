@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
-import { Card, LinearProgress } from "@material-ui/core";
+import { Paper, LinearProgress } from "@material-ui/core";
 import { yellow } from "@material-ui/core/colors";
 const Cooldown = ({ player }) => {
   const [completed, setCompleted] = useState(0);
@@ -61,7 +61,7 @@ const mapStateToProps = ({ mapState, playerState }) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cooldown);
 
-export const StyledCooldown = styled(Card)`
+export const StyledCooldown = styled(Paper)`
   z-index: 1000;
   position: absolute;
   width: 100%;

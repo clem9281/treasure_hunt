@@ -1,4 +1,3 @@
-import React from "react";
 import styled, { css } from "styled-components";
 
 export const flex = css`
@@ -13,6 +12,7 @@ export const flex = css`
 
 export const flexChild = css`
   flex: ${props => props.flex && props.flex};
+  height: ${props => (props.height ? props.height : "auto")};
 `;
 
 export const GridAncestor = styled.section`

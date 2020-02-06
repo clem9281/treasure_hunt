@@ -1,6 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
-
-import styled from "styled-components";
+import React, { useEffect, useCallback } from "react";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -73,13 +71,13 @@ const WorldPage = ({
             flex="0 0 30%"
             justifyContent="space-between"
           >
-            <GridChild>
+            <GridChild flex="0 1 30%" height="30%">
               <PlayerInfo />
             </GridChild>
-            <GridChild>
+            <GridChild flex="0 1 30%" height="30%">
               <GameCard title="EQUIPMENT" color="success" />
             </GridChild>
-            <GridChild>
+            <GridChild flex="0 1 30%" height="30%">
               <Inventory />
             </GridChild>
           </GridParentChild>
@@ -89,7 +87,7 @@ const WorldPage = ({
             flexDirection="column"
             flex="0 0 68%"
           >
-            <GridChild flex="0 0 50%">
+            <GridChild flex="0 0 50%" height="400px">
               <Map />
             </GridChild>
             <GridChild flex="1 0 10%">
