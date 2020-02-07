@@ -1,28 +1,19 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  useMemo
-} from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import styled from "styled-components";
 
 import { connect } from "react-redux";
 
-import { Paper, Tooltip } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
 import { yellow } from "@material-ui/core/colors";
 
-import Player from "./Player";
-import Room from "./Room";
 import Cooldown from "./Cooldown";
 
 import { movement } from "../actions";
 
-import { usePositionFinder } from "../hooks";
-
 import * as d3 from "d3";
 import { getCoordinatesFromString } from "../util";
 import { theme } from "./styledComponents/ThemeProvider";
+import { toast } from "react-toastify";
 
 const Map = ({
   dimension,
@@ -34,7 +25,6 @@ const Map = ({
   movement,
   mapDict
 }) => {
-  let center = usePositionFinder(player, dimension, "#game-area");
   const svgRef = useRef(null);
   let [[xDomain, yDomain], setDomains] = useState([null, null]);
   let [group, setGroup] = useState(null);
@@ -42,14 +32,18 @@ const Map = ({
 
   let move = useCallback(
     e => {
-      movement(
-        token,
-        player.currentRoom,
-        mapDict,
-        e,
-        player.willPickUp,
-        player
-      );
+      if (player.isCoolingDown) {
+        toast.info(`You can't move while you are cooling down`);
+      } else {
+        movement(
+          token,
+          player.currentRoom,
+          mapDict,
+          e,
+          player.willPickUp,
+          player
+        );
+      }
     },
     [mapDict, movement, player, token]
   );
@@ -137,6 +131,7 @@ const Map = ({
   }, [svgRef, d3Data, dimension, gutter, links]);
 
   useEffect(() => {
+    // this useEffect is still getting called every time we change the player state
     if (group) {
       group.selectAll("rect").each(function() {
         let current = d3.select(this);
@@ -168,13 +163,7 @@ const Map = ({
     <StyledParent>
       <Cooldown />
       <GameArea id="game-area">
-        <StyledRooms
-          // left={center.x}
-          // top={center.y}
-          id="rooms"
-          // height={height}
-          // width={width}
-        >
+        <StyledRooms id="rooms">
           <svg ref={svgRef}></svg>
         </StyledRooms>
       </GameArea>
