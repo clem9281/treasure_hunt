@@ -45,7 +45,9 @@ export const theme = createMuiTheme({
     },
     MuiContainer: {
       root: {
-        // maxHeight: "100vh"
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "space-between"
       }
     },
     MuiCardHeader: {

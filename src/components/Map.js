@@ -1,28 +1,19 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  useMemo
-} from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import styled from "styled-components";
 
 import { connect } from "react-redux";
 
-import { Paper, Tooltip } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
 import { yellow } from "@material-ui/core/colors";
 
-import Player from "./Player";
-import Room from "./Room";
 import Cooldown from "./Cooldown";
 
 import { movement } from "../actions";
 
-import { usePositionFinder } from "../hooks";
-
 import * as d3 from "d3";
 import { getCoordinatesFromString } from "../util";
 import { theme } from "./styledComponents/ThemeProvider";
+import { toast } from "react-toastify";
 
 const Map = ({
   dimension,
@@ -34,7 +25,6 @@ const Map = ({
   movement,
   mapDict
 }) => {
-  let center = usePositionFinder(player, dimension, "#game-area");
   const svgRef = useRef(null);
   let [[xDomain, yDomain], setDomains] = useState([null, null]);
   let [group, setGroup] = useState(null);
@@ -42,14 +32,18 @@ const Map = ({
 
   let move = useCallback(
     e => {
-      movement(
-        token,
-        player.currentRoom,
-        mapDict,
-        e,
-        player.willPickUp,
-        player
-      );
+      if (player.isCoolingDown) {
+        toast.info(`You can't move while you are cooling down`);
+      } else {
+        movement(
+          token,
+          player.currentRoom,
+          mapDict,
+          e,
+          player.willPickUp,
+          player
+        );
+      }
     },
     [mapDict, movement, player, token]
   );
@@ -82,24 +76,6 @@ const Map = ({
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-      g.selectAll("dot")
-        .data(arrData)
-        .enter()
-        .append("rect")
-        .attr("width", dimension)
-        .attr("height", dimension)
-        .attr("id", function(d) {
-          return d.key;
-        })
-        .attr("x", function(d) {
-          return x(d.value.coordinates.x);
-        })
-        .attr("y", function(d) {
-          return y(d.value.coordinates.y);
-        })
-        .attr("fill", theme.palette.primary.main);
-
       g.selectAll("line")
         .data(links)
         .enter()
@@ -119,6 +95,31 @@ const Map = ({
         .attr("y2", function(d) {
           return y(arrData[d.target].value.coordinates.y) + dimension / 2;
         });
+      g.selectAll("dot")
+        .data(arrData)
+        .enter()
+        .append("rect")
+        .attr("width", dimension)
+        .attr("height", dimension)
+        .attr("id", function(d) {
+          return d.key;
+        })
+        .attr("x", function(d) {
+          return x(d.value.coordinates.x);
+        })
+        .attr("y", function(d) {
+          return y(d.value.coordinates.y);
+        })
+        .attr("fill", function(d) {
+          if (d.key === "467") {
+            return theme.palette.secondary.dark;
+          } else if (d.key === "1") {
+            return theme.palette.error.dark;
+          } else if (d.key === "55") {
+            return theme.palette.info.dark;
+          }
+          return theme.palette.primary.main;
+        });
 
       g.append("circle")
         .attr("fill", "#000")
@@ -130,6 +131,7 @@ const Map = ({
   }, [svgRef, d3Data, dimension, gutter, links]);
 
   useEffect(() => {
+    // this useEffect is still getting called every time we change the player state
     if (group) {
       group.selectAll("rect").each(function() {
         let current = d3.select(this);
@@ -161,13 +163,7 @@ const Map = ({
     <StyledParent>
       <Cooldown />
       <GameArea id="game-area">
-        <StyledRooms
-          // left={center.x}
-          // top={center.y}
-          id="rooms"
-          // height={height}
-          // width={width}
-        >
+        <StyledRooms id="rooms">
           <svg ref={svgRef}></svg>
         </StyledRooms>
       </GameArea>
