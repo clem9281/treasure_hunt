@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core/colors";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
-const theme = createMuiTheme({
+export const theme = createMuiTheme({
   typography: {
     fontFamily: "'Open Sans', 'sans-serif'"
   },

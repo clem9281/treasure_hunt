@@ -21,7 +21,9 @@ import {
 import { loadMap, initializeRoom, playerStatus } from "../actions";
 import { connect } from "react-redux";
 
-import map from "../util/map.json";
+import map from "../util/prodMap/map.json";
+import d3Data from "../util/prodMap/d3Data.json";
+import links from "../util/prodMap/links.json";
 
 import { Container } from "@material-ui/core";
 
@@ -44,8 +46,9 @@ const WorldPage = ({
 
   // load map into state
   useEffect(() => {
-    loadMap(map);
+    loadMap(map, d3Data, links);
   }, [loadMap]);
+
   // get player current room and player current status
   useEffect(() => {
     initialize();
@@ -66,9 +69,9 @@ const WorldPage = ({
       <Container maxWidth="xl">
         <GridAncestor justifyContent="space-between">
           <GridParentChild
-            flexBasis="30%"
+            width="30%"
             flexDirection="column"
-            flex="0 0 30%"
+            flex="0 1 30%"
             justifyContent="space-between"
           >
             <GridChild flex="0 1 30%" height="30%">
@@ -82,11 +85,7 @@ const WorldPage = ({
             </GridChild>
           </GridParentChild>
 
-          <GridParentChild
-            flexBasis="68%"
-            flexDirection="column"
-            flex="0 0 68%"
-          >
+          <GridParentChild width="60%" flexDirection="column" flex="0 1 60%">
             <GridChild flex="0 0 50%" height="400px">
               <Map />
             </GridChild>

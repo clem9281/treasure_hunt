@@ -7,16 +7,18 @@ export const flex = css`
   ${props =>
     props.justifyContent && `justify-content: ${props.justifyContent}`};
   flex-direction: ${props => props.flexDirection || "row"};
-  flex-wrap: ${props => props.flexWrap || "no-wrap"};
+  flex-wrap: ${props => props.flexWrap || "nowrap"};
 `;
 
 export const flexChild = css`
   flex: ${props => props.flex && props.flex};
   height: ${props => (props.height ? props.height : "auto")};
+  width: ${props => (props.width ? props.width : "auto")};
 `;
 
 export const GridAncestor = styled.section`
   ${flex};
+  width: 100%;
 `;
 
 export const GridParentChild = styled.div`

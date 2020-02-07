@@ -23,16 +23,16 @@ export default function Login(props) {
   const classes = useFormStyles();
   const [user, setUser] = useState({ username: "", password: "" });
   const loginUser = async () => {
-    // localStorage.setItem("token", `Token ${REACT_APP_PROD_TOKEN}`);
-    // props.history.push("/world");
-    try {
-      let res = await requestWithAuth().post(`api/login/`, user);
-      const token = res.data.key;
-      localStorage.setItem("token", `Token ${token}`);
-      props.history.push("/world");
-    } catch (err) {
-      handleFormErrors(err);
-    }
+    localStorage.setItem("token", `Token ${REACT_APP_PROD_TOKEN}`);
+    props.history.push("/world");
+    // try {
+    //   let res = await requestWithAuth().post(`api/login/`, user);
+    //   const token = res.data.key;
+    //   localStorage.setItem("token", `Token ${token}`);
+    //   props.history.push("/world");
+    // } catch (err) {
+    //   handleFormErrors(err);
+    // }
   };
 
   const handleChange = event => {
