@@ -1,16 +1,3 @@
-import { toast } from "react-toastify";
-
-export const handleFormErrors = err => {
-  if (err.response && err.response.data && err.response.status === 400) {
-    for (let key of Object.keys(err.response.data)) {
-      toast.error(`${key}: ${err.response.data[key]}`);
-    }
-  } else {
-    console.log(err);
-    toast.error(`Something went wrong`);
-  }
-};
-
 export const getCoordinatesFromString = str => {
   let x = Number(str.split(",")[0].slice(1));
   let yString = str.split(",")[1];

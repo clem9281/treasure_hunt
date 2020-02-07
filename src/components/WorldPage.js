@@ -32,13 +32,14 @@ const WorldPage = ({
   loadMap,
   initializeRoom,
   player,
-  playerStatus
+  playerStatus,
+  history
 }) => {
   const initialize = useCallback(async () => {
     let token = localStorage.getItem("token");
     try {
-      await playerStatus(token);
-      await initializeRoom(token);
+      await playerStatus(token, history);
+      await initializeRoom(token, history);
     } catch (error) {
       console.log(error);
     }

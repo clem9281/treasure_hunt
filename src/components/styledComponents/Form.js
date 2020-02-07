@@ -43,9 +43,9 @@ const Form = ({ title, submitHandler, children }) => {
             </Button>
             <Grid container>
               <Grid item>
-                <StyledLink to="/register">
+                {/* <StyledLink to="/register">
                   {"Don't have an account? Sign Up"}
-                </StyledLink>
+                </StyledLink> */}
               </Grid>
             </Grid>
             <Box mt={5}></Box>

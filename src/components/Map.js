@@ -14,6 +14,7 @@ import * as d3 from "d3";
 import { getCoordinatesFromString } from "../util";
 import { theme } from "./styledComponents/ThemeProvider";
 import { toast } from "react-toastify";
+import { Tooltip } from "@material-ui/core";
 
 const Map = ({
   dimension,
@@ -80,7 +81,7 @@ const Map = ({
         .data(links)
         .enter()
         .append("line")
-        .attr("stroke", theme.palette.primary.main)
+        .attr("stroke", theme.palette.success.light)
         .attr("style", "pointer-events: none;")
         .attr("stroke-width", dimension / 4)
         .attr("x1", function(d) {
@@ -95,6 +96,20 @@ const Map = ({
         .attr("y2", function(d) {
           return y(arrData[d.target].value.coordinates.y) + dimension / 2;
         });
+      let div = svg
+        .append("div")
+        .attr("id", "tooltip")
+        .style("opacity", 0)
+        .style("text-align", "center")
+        .style("width", "60px")
+        .style("height", "28px")
+        .style("padding", "2px")
+        .style("font", "12px sans-serif")
+        .style("background", "lightsteelblue")
+        .style("border", "0px")
+        .style("border-radius", "8px")
+        .style("pointer-events", "none");
+
       g.selectAll("dot")
         .data(arrData)
         .enter()
@@ -118,7 +133,24 @@ const Map = ({
           } else if (d.key === "55") {
             return theme.palette.info.dark;
           }
-          return theme.palette.primary.main;
+          return theme.palette.success.light;
+        })
+        .on("mouseover", function(d) {
+          console.log("here");
+          div
+            .transition()
+            .duration(200)
+            .style("opacity", 0.9);
+          div
+            .html(d.key + "<br/>")
+            .style("left", d3.event.pageX + "px")
+            .style("top", d3.event.pageY - 28 + "px");
+        })
+        .on("mouseout", function(d) {
+          div
+            .transition()
+            .duration(500)
+            .style("opacity", 0);
         });
 
       g.append("circle")
@@ -209,3 +241,16 @@ export const StyledParent = styled.div`
   width: 100%;
   height: 100%;
 `;
+
+// export const Tooltip = styled.div`
+//   position: absolute;
+//   text-align: center;
+//   width: 60px;
+//   height: 28px;
+//   padding: 2px;
+//   font: 12px sans-serif;
+//   background: lightsteelblue;
+//   border: 0px;
+//   border-radius: 8px;
+//   pointer-events: none;
+// `;
