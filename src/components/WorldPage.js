@@ -85,7 +85,12 @@ const WorldPage = ({
             </GridChild>
           </GridParentChild>
 
-          <GridParentChild width="60%" flexDirection="column" flex="0 1 60%">
+          <GridParentChild
+            width="60%"
+            flexDirection="column"
+            flex="0 1 60%"
+            height="100%"
+          >
             <GridChild flex="0 0 50%" height="400px">
               <Map />
             </GridChild>

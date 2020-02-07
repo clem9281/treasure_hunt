@@ -82,24 +82,6 @@ const Map = ({
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-      g.selectAll("dot")
-        .data(arrData)
-        .enter()
-        .append("rect")
-        .attr("width", dimension)
-        .attr("height", dimension)
-        .attr("id", function(d) {
-          return d.key;
-        })
-        .attr("x", function(d) {
-          return x(d.value.coordinates.x);
-        })
-        .attr("y", function(d) {
-          return y(d.value.coordinates.y);
-        })
-        .attr("fill", theme.palette.primary.main);
-
       g.selectAll("line")
         .data(links)
         .enter()
@@ -118,6 +100,31 @@ const Map = ({
         })
         .attr("y2", function(d) {
           return y(arrData[d.target].value.coordinates.y) + dimension / 2;
+        });
+      g.selectAll("dot")
+        .data(arrData)
+        .enter()
+        .append("rect")
+        .attr("width", dimension)
+        .attr("height", dimension)
+        .attr("id", function(d) {
+          return d.key;
+        })
+        .attr("x", function(d) {
+          return x(d.value.coordinates.x);
+        })
+        .attr("y", function(d) {
+          return y(d.value.coordinates.y);
+        })
+        .attr("fill", function(d) {
+          if (d.key === "467") {
+            return theme.palette.secondary.dark;
+          } else if (d.key === "1") {
+            return theme.palette.error.dark;
+          } else if (d.key === "55") {
+            return theme.palette.info.dark;
+          }
+          return theme.palette.primary.main;
         });
 
       g.append("circle")

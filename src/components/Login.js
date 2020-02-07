@@ -12,9 +12,9 @@ import {
 import CodeIcon from "@material-ui/icons/Code";
 
 import { ToastContainer } from "react-toastify";
-import { handleFormErrors } from "../util";
+// import { handleFormErrors } from "../util";
 
-import { requestWithAuth } from "../api";
+// import { requestWithAuth } from "../api";
 
 import { StyledLink, useFormStyles } from "../styles";
 const { REACT_APP_PROD_TOKEN } = process.env;
