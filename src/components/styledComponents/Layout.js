@@ -19,6 +19,7 @@ export const flexChild = css`
 export const GridAncestor = styled.section`
   ${flex};
   width: 100%;
+  height: 100%;
 `;
 
 export const GridParentChild = styled.div`

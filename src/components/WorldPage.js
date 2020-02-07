@@ -67,41 +67,42 @@ const WorldPage = ({
       <ToastContainer />
 
       <Container maxWidth="xl">
-        <GridAncestor justifyContent="space-between">
-          <GridParentChild
-            width="30%"
-            flexDirection="column"
-            flex="0 1 30%"
-            justifyContent="space-between"
-          >
-            <GridChild flex="0 1 30%" height="30%">
-              <PlayerInfo />
-            </GridChild>
-            <GridChild flex="0 1 30%" height="30%">
-              <GameCard title="EQUIPMENT" color="success" />
-            </GridChild>
-            <GridChild flex="0 1 30%" height="30%">
-              <Inventory />
-            </GridChild>
-          </GridParentChild>
+        {/* <GridAncestor justifyContent="space-between" alignItemes="center"> */}
+        <GridParentChild
+          width="30%"
+          flexDirection="column"
+          flex="0 1 30%"
+          justifyContent="space-between"
+          alignContent="stretch"
+        >
+          <GridChild flex="0 1 30%" height="30%">
+            <PlayerInfo />
+          </GridChild>
+          <GridChild flex="0 1 30%" height="30%">
+            <GameCard title="EQUIPMENT" color="success" />
+          </GridChild>
+          <GridChild flex="0 1 30%" height="30%">
+            <Inventory />
+          </GridChild>
+        </GridParentChild>
 
-          <GridParentChild
-            width="60%"
-            flexDirection="column"
-            flex="0 1 60%"
-            height="100%"
-          >
-            <GridChild flex="0 0 50%" height="400px">
-              <Map />
-            </GridChild>
-            <GridChild flex="1 0 10%">
-              <Controls />
-            </GridChild>
-            <GridChild flex="1 0 40%">
-              <ActionArea />
-            </GridChild>
-          </GridParentChild>
-        </GridAncestor>
+        <GridParentChild
+          width="60%"
+          flexDirection="column"
+          flex="0 1 60%"
+          justifyContent="stretch"
+        >
+          <GridChild flex="0 0 50%" height="400px">
+            <Map />
+          </GridChild>
+          <GridChild flex="1 0 10%">
+            <Controls />
+          </GridChild>
+          <GridChild flex="1 0 40%">
+            <ActionArea />
+          </GridChild>
+        </GridParentChild>
+        {/* </GridAncestor> */}
       </Container>
     </main>
   );
