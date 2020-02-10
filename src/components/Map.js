@@ -52,6 +52,8 @@ const Map = ({
   useEffect(() => {
     if (svgRef.current) {
       const svg = d3.select(svgRef.current);
+      const gameArea = d3.select("#game-area");
+
       let margin = { top: 40, right: 40, bottom: 40, left: 40 };
       let width = (dimension + gutter) * 31 - margin.left - margin.right;
       let height = (dimension + gutter) * 31 - margin.top - margin.bottom;
@@ -96,19 +98,21 @@ const Map = ({
         .attr("y2", function(d) {
           return y(arrData[d.target].value.coordinates.y) + dimension / 2;
         });
-      let div = svg
+      let div = gameArea
         .append("div")
         .attr("id", "tooltip")
         .style("opacity", 0)
+        .style("position", "absolute")
         .style("text-align", "center")
         .style("width", "60px")
         .style("height", "28px")
         .style("padding", "2px")
         .style("font", "12px sans-serif")
-        .style("background", "lightsteelblue")
+        .style("background", theme.palette.info.dark)
         .style("border", "0px")
         .style("border-radius", "8px")
-        .style("pointer-events", "none");
+        .style("pointer-events", "none")
+        .style("z-index", "1000");
 
       g.selectAll("dot")
         .data(arrData)
@@ -136,15 +140,14 @@ const Map = ({
           return theme.palette.success.light;
         })
         .on("mouseover", function(d) {
-          console.log("here");
           div
             .transition()
             .duration(200)
             .style("opacity", 0.9);
           div
-            .html(d.key + "<br/>")
-            .style("left", d3.event.pageX + "px")
-            .style("top", d3.event.pageY - 28 + "px");
+            .html("Room: " + d.key + "<br/>")
+            .style("left", d3.event.offsetX + "px")
+            .style("top", d3.event.offsetY - 28 + "px");
         })
         .on("mouseout", function(d) {
           div
@@ -163,6 +166,7 @@ const Map = ({
   }, [svgRef, d3Data, dimension, gutter, links]);
 
   useEffect(() => {
+    console.log("fired");
     // this useEffect is still getting called every time we change the player state
     if (group) {
       group.selectAll("rect").each(function() {
@@ -241,16 +245,3 @@ export const StyledParent = styled.div`
   width: 100%;
   height: 100%;
 `;
-
-// export const Tooltip = styled.div`
-//   position: absolute;
-//   text-align: center;
-//   width: 60px;
-//   height: 28px;
-//   padding: 2px;
-//   font: 12px sans-serif;
-//   background: lightsteelblue;
-//   border: 0px;
-//   border-radius: 8px;
-//   pointer-events: none;
-// `;

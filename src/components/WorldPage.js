@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,12 +11,7 @@ import Controls from "./Controls";
 import PlayerInfo from "./PlayerInfo";
 import Inventory from "./Inventory";
 
-import {
-  GameCard,
-  GridAncestor,
-  GridParentChild,
-  GridChild
-} from "./styledComponents";
+import { GameCard, GridParentChild, GridChild } from "./styledComponents";
 
 import { loadMap, initializeRoom, playerStatus } from "../actions";
 import { connect } from "react-redux";
@@ -35,16 +30,6 @@ const WorldPage = ({
   playerStatus,
   history
 }) => {
-  const initialize = useCallback(async () => {
-    let token = localStorage.getItem("token");
-    try {
-      await playerStatus(token, history);
-      await initializeRoom(token, history);
-    } catch (error) {
-      console.log(error);
-    }
-  }, [initializeRoom, playerStatus]);
-
   // load map into state
   useEffect(() => {
     loadMap(map, d3Data, links);
@@ -52,8 +37,18 @@ const WorldPage = ({
 
   // get player current room and player current status
   useEffect(() => {
+    const initialize = async () => {
+      let token = localStorage.getItem("token");
+      try {
+        await playerStatus(token, history);
+        await initializeRoom(token, history);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     initialize();
-  }, [initialize]);
+  }, [history, playerStatus, initializeRoom]);
+
   if (!mapDict || !player.currentRoom || !player.playerStatus) {
     return (
       <>
@@ -68,7 +63,6 @@ const WorldPage = ({
       <ToastContainer />
 
       <Container maxWidth="xl">
-        {/* <GridAncestor justifyContent="space-between" alignItemes="center"> */}
         <GridParentChild
           width="30%"
           flexDirection="column"
@@ -103,7 +97,6 @@ const WorldPage = ({
             <ActionArea />
           </GridChild>
         </GridParentChild>
-        {/* </GridAncestor> */}
       </Container>
     </main>
   );
