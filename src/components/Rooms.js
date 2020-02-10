@@ -1,17 +1,21 @@
 import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
 
+import { connect } from "react-redux";
+import { movement } from "../actions";
+
 import * as d3 from "d3";
 import { getCoordinatesFromString } from "../util";
 import { theme } from "./styledComponents/ThemeProvider";
 
-const Rooms = ({ dimension, gutter, d3Data, links, moveHandler, player }) => {
+const Rooms = ({ dimension, gutter, d3Data, links, movement, player }) => {
   const svgRef = useRef(null);
   //   once we finish creating the map, we'll have set up an svg group and domains for the x and y axes, rather than recreate those whenever we move the player we'll save them in state
   let [[xDomain, yDomain], setDomains] = useState([null, null]);
   let [group, setGroup] = useState(null);
+
+  //   draw map
   useEffect(() => {
-    console.log("draw map fired");
     if (svgRef.current) {
       const svg = d3.select(svgRef.current);
       const rooms = d3.select("#rooms");
@@ -104,6 +108,7 @@ const Rooms = ({ dimension, gutter, d3Data, links, moveHandler, player }) => {
           }
           return theme.palette.success.light;
         })
+
         .on("mouseover", function(d) {
           div
             .transition()
@@ -131,20 +136,24 @@ const Rooms = ({ dimension, gutter, d3Data, links, moveHandler, player }) => {
   }, [svgRef, d3Data, dimension, gutter, links]);
 
   useEffect(() => {
-    console.log("fired");
-    // this useEffect is still getting called every time we change the player state
+    const token = localStorage.getItem("token");
     if (group) {
       group.selectAll("rect").each(function() {
         let current = d3.select(this);
         current.on("click", function(d, i) {
-          moveHandler(d["key"]);
+          movement(token, d["key"]);
         });
       });
     }
-  }, [group, moveHandler]);
+    return () => {
+      d3.selectAll("rect").each(function() {
+        let current = d3.select(this);
+        current.on("click", null);
+      });
+    };
+  }, [group, movement]);
 
   useEffect(() => {
-    console.log("update fired");
     function update(node) {
       node
         .transition()
@@ -167,7 +176,17 @@ const Rooms = ({ dimension, gutter, d3Data, links, moveHandler, player }) => {
   );
 };
 
-export default Rooms;
+const mapDispatchToProps = { movement };
+const mapStateToProps = ({ mapState, playerState }) => ({
+  mapDict: mapState.rooms,
+  dimension: mapState.dimension,
+  gutter: mapState.gutter,
+  player: playerState,
+  d3Data: mapState.d3Data,
+  links: mapState.links
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Rooms);
 
 export const StyledRooms = styled.div`
   display: block;
