@@ -13,7 +13,7 @@ function App() {
     <ThemeProvider>
       <div className="App">
         <Switch>
-          <Route path="/register" component={Register} />
+          {/* <Route path="/register" component={Register} /> */}
           <Route exact path="/login" component={Login} />
           <PrivateRoute path="/" component={WorldPage} />
         </Switch>

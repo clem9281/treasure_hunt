@@ -2,17 +2,20 @@ import React, { useState } from "react";
 
 import { Form } from "./styledComponents";
 import { TextField } from "@material-ui/core";
-// import { handleFormErrors } from "../util";
+// import { handleFormErrors } from "../api";
 
 // import { requestWithAuth } from "../api";
 
-const { REACT_APP_PROD_TOKEN } = process.env;
+// ****************************************************************
+// THE COMMENTED CODE IS LEFT IN FOR USING WITH THE TEST SERVER!!!
+// ****************************************************************
 
 export default function Login(props) {
-  const [user, setUser] = useState({ username: "", password: "" });
+  const [user, setUser] = useState({ token: "", password: "" });
   const loginUser = async () => {
-    localStorage.setItem("token", `Token ${REACT_APP_PROD_TOKEN}`);
+    localStorage.setItem("token", `Token ${user.token}`);
     props.history.push("/world");
+
     // try {
     //   let res = await requestWithAuth().post(`api/login/`, user);
     //   const token = res.data.key;
@@ -40,15 +43,15 @@ export default function Login(props) {
         margin="normal"
         required
         fullWidth
-        id="username"
-        label="Username"
-        name="username"
-        autoComplete="username"
-        value={user.username}
+        id="token"
+        label="Enter Your Api Token"
+        name="token"
+        autoComplete="token"
+        value={user.token}
         onChange={handleChange}
         autoFocus
       />
-      <TextField
+      {/* <TextField
         variant="outlined"
         margin="normal"
         required
@@ -60,7 +63,7 @@ export default function Login(props) {
         autoComplete="current-password"
         value={user.password}
         onChange={handleChange}
-      />
+      /> */}
     </Form>
   );
 }

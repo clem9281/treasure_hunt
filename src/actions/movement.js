@@ -4,6 +4,8 @@ import { moveRequest, examineRequest, pickupRequest } from "../api";
 import { wait } from "./coolDown";
 import { playerStatus } from "./player";
 
+import { toast } from "react-toastify";
+
 export const EXAMINE_START = "EXAMINE_START";
 export const EXAMINE_FAIL = "EXAMINE_FAIL";
 export const EXAMINE_SUCCESS = "EXAMINE_SUCCESS";
@@ -28,33 +30,33 @@ export const setWillPickUp = bool => {
   };
 };
 
-export const movement = (
-  token,
-  currentRoom,
-  dict,
-  nextRoom,
-  willPickUp,
-  player
-) => {
-  return async dispatch => {
-    dispatch({ type: MOVE_START });
-    let current = dict[currentRoom.room_id];
-    for (let direction of currentRoom.exits) {
-      if (
-        current["directions"][direction] &&
-        current["directions"][direction].room_id === Number(nextRoom)
-      ) {
-        let body = {
-          direction,
-          next_room_id: `${current["directions"][direction].room_id}`
-        };
-        await dispatch(move(token, body, willPickUp, player));
-        return;
+export const movement = (token, nextRoom) => {
+  return async (dispatch, getState) => {
+    const { playerState: player, mapState } = getState();
+    const { rooms: dict } = mapState;
+    const { currentRoom, willPickUp, isCoolingDown } = player;
+    if (isCoolingDown) {
+      toast.info(`You can't move while you are cooling down`);
+    } else {
+      dispatch({ type: MOVE_START });
+      let current = dict[currentRoom.room_id];
+      for (let direction of currentRoom.exits) {
+        if (
+          current["directions"][direction] &&
+          current["directions"][direction].room_id === Number(nextRoom)
+        ) {
+          let body = {
+            direction,
+            next_room_id: `${current["directions"][direction].room_id}`
+          };
+          await dispatch(move(token, body, willPickUp, player));
+          return;
+        }
       }
+      await dispatch(
+        calculateRoute(token, current, nextRoom, dict, player, willPickUp)
+      );
     }
-    await dispatch(
-      calculateRoute(token, current, nextRoom, dict, player, willPickUp)
-    );
   };
 };
 
@@ -105,9 +107,7 @@ export const move = (token, body, willPickUp, player) => {
     try {
       let res = await moveRequest(token, body);
       dispatch({ type: MOVE_SUCCESS, payload: res.data });
-      console.log(willPickUp, res.data.items);
       await dispatch(wait(res.data.cooldown));
-      console.log(willPickUp);
       if (
         willPickUp &&
         res.data.items.length > 0 &&

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { TextField } from "@material-ui/core";
 
-import { handleFormErrors } from "../util";
+import { handleFormErrors } from "../api";
 
 import { requestWithAuth } from "../api";
 

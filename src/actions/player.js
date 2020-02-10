@@ -1,4 +1,5 @@
 import { roomInfoRequest, statusRequest } from "../api";
+import { handle401 } from "../api";
 
 import { wait } from "./coolDown";
 
@@ -10,7 +11,7 @@ export const PLAYER_STATUS_START = "PLAYER_STATUS_START";
 export const PLAYER_STATUS_FAIL = "PLAYER_STATUS_FAIL";
 export const PLAYER_STATUS_SUCCESS = "PLAYER_STATUS_SUCCESS";
 
-export const initializeRoom = token => {
+export const initializeRoom = (token, history) => {
   return async dispatch => {
     dispatch({ type: ROOM_INFO_START });
     try {
@@ -19,12 +20,13 @@ export const initializeRoom = token => {
       await dispatch(wait(room.data.cooldown));
     } catch (error) {
       dispatch({ type: ROOM_INFO_FAIL });
+      handle401(error, history);
       console.dir(error);
     }
   };
 };
 
-export const playerStatus = token => {
+export const playerStatus = (token, history) => {
   return async dispatch => {
     dispatch({ type: PLAYER_STATUS_START });
     try {
@@ -33,6 +35,7 @@ export const playerStatus = token => {
       await dispatch(wait(res.data.cooldown));
     } catch (error) {
       dispatch({ type: PLAYER_STATUS_FAIL });
+      handle401(error, history);
       console.dir(error);
     }
   };

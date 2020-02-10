@@ -11,7 +11,7 @@ const StyledLink = styled(Link)`
 const LinkToast = () => {
   return (
     <div>
-      Token expired, please<StyledLink to="/">login</StyledLink>
+      Token expired, please<StyledLink to="/login">login</StyledLink>
     </div>
   );
 };
